@@ -1,0 +1,7 @@
+box: wercker/rvm@2.4.0
+build:
+  steps:
+    - bundle-install
+    - script:
+        name: exec spec
+        code: rake
