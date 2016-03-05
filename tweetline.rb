@@ -1,21 +1,23 @@
-#!/usr/bin/ruby
-# tweet line
+#!/usr/bin/env ruby
+# stdin to twitter
 
 require 'rubygems'
 require 'twitter'
 require 'pp'
+require 'dotenv'
 
-sleeptime = 10
+Dotenv.load
+
+sleeptime = ENV["SLEEPTIME"].to_i
 
 @client = Twitter::REST::Client.new(
-    :consumer_key        => "[consumer_key]",
-    :consumer_secret     => "[consumer_secret]",
-    :access_token        => "[access_token]",
-    :access_token_secret => "[access_token_secret]"
+    :consumer_key        => ENV["TWITTER_CONSUMER_KEY"],
+    :consumer_secret     => ENV["TWITTER_CONSUMER_SECRET"],
+    :access_token        => ENV["TWITTER_ACCESS_TOKEN"],
+    :access_token_secret => ENV["TWITTER_ACCESS_TOKEN_SECRET"]
 )
 
-for line in STDIN
-  twstr = line.chomp
-  @client.update(twstr)
+STDIN.each do |line|
+  @client.update(line.chomp)
   sleep(sleeptime)
 end
